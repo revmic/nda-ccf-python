@@ -1,3 +1,4 @@
+import os
 import sys
 import csv
 import argparse
@@ -15,7 +16,9 @@ parser.add_argument('-d', help='NDA datadictionary shortname', required=True)
 parser.add_argument('-p', help='Comma separated list of projects')
 nda_datatype = parser.parse_args().d
 project_list = parser.parse_args().p
-# nda_datatype = 'adi_200304'
+
+if not os.path.exits('output'):
+    os.makedirs('output')
 
 fname = 'output/' + nda_datatype + '-datadict.csv'
 print "Writing CSV to", fname

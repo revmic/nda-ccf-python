@@ -1,3 +1,4 @@
+import os
 import sys
 import argparse
 import requests
@@ -12,13 +13,8 @@ uri = "{0}/{1}".format(NDAR_URI, nda_datatype)
 print "Requesting {} ...".format(uri)
 r = requests.get(uri)
 
-#r2 = requests.get(NDAR_URI)
-#for elem in r2.json():
-#    print elem['shortName'], '---', elem['title']
-#sys.exit()
-
-short_name = r.json()['shortName'].split('_', 1)
-elem_name = short_name[0].upper() + short_name[1]
+short_name = r.json()['shortName']
+elem_name = short_name.upper()
 
 XSD_HEAD = \
     '<?xml version="1.0" encoding="UTF-8"?>\n' \
@@ -72,6 +68,9 @@ def buildXsd():
 
 
 def writeXsd(xsd_str):
+    if not os.path.exits('output'):
+        os.makedirs('output')
+
     fname = 'output/' + nda_datatype + '.xsd'
     print "Writing XSD to {}".format(fname)
 
